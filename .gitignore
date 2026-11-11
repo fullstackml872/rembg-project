@@ -1,0 +1,11 @@
+# Python
+.venv/
+__pycache__/
+*.pyc
+
+# Sorties générées par les tests
+resultats/
+
+# Système
+.DS_Store
+.env
