@@ -30,14 +30,17 @@ export default function ImageUploader() {
     setError(null)
 
     try {
-      const response = await axios.post(
-        "http://localhost:8000/background_remover",
-        formData,
-        { responseType: "blob" }
-      )
+      // Passe par Express, qui vérifie qu'on est connecté avant d'appeler FastAPI
+      const response = await axios.post("/api/remove-background", formData, {
+        responseType: "blob",
+      })
       setResult(URL.createObjectURL(response.data))
-    } catch {
-      setError("Erreur : image invalide ou format non supporté (JPG/PNG).")
+    } catch (err) {
+      setError(
+        err.response?.status === 401
+          ? "Ta session a expiré, reconnecte-toi."
+          : "Erreur : image invalide ou format non supporté (JPG/PNG)."
+      )
     } finally {
       setLoading(false)
     }

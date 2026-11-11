@@ -10,4 +10,11 @@ export default defineConfig({
       '@': path.resolve(__dirname, './src'),
     },
   },
+  // En dev, /api est redirigé vers Express : front et API sont sur la même
+  // origine, donc le cookie d'auth fonctionne sans config CORS (comme Nginx en prod).
+  server: {
+    proxy: {
+      '/api': 'http://localhost:3000',
+    },
+  },
 })
